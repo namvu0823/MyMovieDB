@@ -4,11 +4,11 @@ import ScoreCircle from "../common/ScoreCircle";
 import { useNavigate } from "react-router-dom";
 
 
-const Trending =()=>{
+const Popular =()=>{
     const scrollRef=useRef(null);
     const [hide,setHide]=useState(false);
     const[movies,setMovies]=useState([]);
-    const[active,setActive]=useState("today");
+    const[active,setActive]=useState("week");
     // const [loading,setLoading] = useState(false);   
     const IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
@@ -40,12 +40,7 @@ const Trending =()=>{
         const fetchData= async()=>{
 
             try{
-                var api_url=``;
-                if(active==="today"){
-                    api_url=`http://localhost:5000/api/trending_day`;
-                } else if(active==="week"){
-                    api_url=`http://localhost:5000/api/trending_week`
-                }
+                const api_url=`http://localhost:5000/api/popular`;
                 const res = await fetch(api_url);
                 const data= await res.json();
                 setMovies(data.results);
@@ -63,11 +58,11 @@ const Trending =()=>{
         <div className=" w-[83%] h-full relative  flex-col">
 
             <div className="w-72 h-10 my-5 flex flex-row gap-4">
-                <h3 className="text-2xl flex font-semibold items-center">Trending</h3>
+                <h3 className="text-2xl flex font-semibold items-center">Popular</h3>
                 <label className=" relative flex items-center cursor-pointer">
                     <div className=" flex group peer bg-white rounded-full duration-300 w-full h-7 ring-1 ring-blue-950">
-                        <button onClick={()=>setActive("today")}className={`px-4 py-1 font-medium text-sm transition-colors rounded-full ${active==="today"?" bg-[#042c46] text-teal-400":"bg-white text-black"}`}>Today</button>
-                        <button onClick={()=>setActive("week")} className={`px-4 py-1 font-medium text-sm transition-colors rounded-full ${active==="week"?" bg-[#042c46] text-teal-400":"bg-white text-black"}`}>This week</button>
+                       
+                        <button onClick={()=>setActive("week")} className={`px-4 py-1 font-medium text-sm transition-colors rounded-full ${active==="week"?" bg-[#042c46] text-teal-400":"bg-white text-black"}`}>In Theaters</button>
                     </div>
                 </label>
             </div>
@@ -98,4 +93,4 @@ const Trending =()=>{
 
 }
 
-export default Trending;
+export default Popular;
