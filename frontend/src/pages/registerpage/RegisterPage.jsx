@@ -11,7 +11,7 @@ const RegisterPage=()=>{
     const[successMsg,setSuccessMsg]=useState("");
 
 
-    const handleResgister=(e)=>{
+    const handleResgister=async (e)=>{
         e.preventDefault();
         const emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -33,14 +33,35 @@ const RegisterPage=()=>{
         }
 
 
-        console.log("Tạo tài khoản thành công!");
-        setErrorMsg("");
-        setSuccessMsg("Tạo tài khoản thành công!");
-        setEmail("");
-        setPassword("");
-        setConfirm_password("");
+        try{
+            const res= await fetch("http://localhost:5000/api/user/register",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json",
+                },
+                body:JSON.stringify({email,password}),
 
-    }
+            });
+            
+            const data=await res.json();
+
+            if(res.ok){
+                setErrorMsg("");
+                setSuccessMsg("Create account succesfully");
+                setEmail("");
+                setPassword("");
+                setConfirm_password("");
+            }else{
+                setErrorMsg(data.message||"Error");
+                setSuccessMsg("");
+            }
+        }catch(err){
+            console.error(err);
+            setErrorMsg("Server error");
+            setSuccessMsg("");
+        }
+
+    };
 
     const handleGoogleRegister=()=>{
         console.log("Google register clicked");

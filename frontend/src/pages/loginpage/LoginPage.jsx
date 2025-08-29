@@ -2,6 +2,8 @@ import {FcGoogle} from "react-icons/fc";
 import banner from "../../assets/backdrop2.jpg";
 import logo from "../../assets/logo.svg";
 import { useState } from "react";
+import {useNavigate} from "react-router-dom";
+import { useAuth } from "../../components/authcontext/AuthContext";
 
 
 
@@ -10,8 +12,10 @@ const LoginPage=()=>{
     const[email,setEmail]=useState("");
     const[password,setPassword]=useState("");
     const[errorMsg,setErrorMsg]=useState("");
+    const {login}=useAuth();
+    const navigate=useNavigate();
 
-    const handleLogin=(e)=>{
+    const handleLogin=async(e)=>{
         e.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -20,12 +24,30 @@ const LoginPage=()=>{
         return;
     }
 
-    if (email === "test@example.com" && password === "123456") {
-        console.log("✅ Login thành công");
-        setErrorMsg(""); // xóa lỗi nếu có
-        // chuyển hướng, lưu token, v.v...
-    } else {
-        setErrorMsg("❌ Sai email hoặc mật khẩu");
+    try{
+        const res = await fetch("http://localhost:5000/api/user/login",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({email,password})
+        })
+        const data= await res.json();
+        if(res.ok){
+            login(data.username,data.token);
+
+            setErrorMsg("");
+            setEmail("");
+            setPassword("");
+
+            navigate("/");
+        }else{
+            setErrorMsg(data.message||"Server error");
+        }
+    }
+    catch(err){
+        console.error(err);
+        setErrorMsg("Server error");
     }
   };
 
