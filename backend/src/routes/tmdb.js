@@ -8,6 +8,7 @@ import {
     getMovieById,
     getCredit,
     search_keyword,
+    getType
 } from "../controllers/tmdb.js"
 
 const router = express.Router();
@@ -18,5 +19,6 @@ router.get("/upcoming",getUpcoming);
 router.get("/movie_id",getMovieById);
 router.get("/credit",getCredit);
 router.get("/search",search_keyword);
+router.get("/type_cate",getType);
 
 export default router;

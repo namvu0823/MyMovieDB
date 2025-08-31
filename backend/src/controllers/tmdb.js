@@ -89,10 +89,25 @@ export const getCredit=async(req,res)=>{
 export const search_keyword=async(req,res)=>{
     try{
         const keyword=req.query.keyword;
-        const data=await fetchFromTMDB(`/search/multi?query=${keyword}&page=1`);
+        const page=req.query.page;
+        const data=await fetchFromTMDB(`/search/multi?query=${keyword}&page=${page}`);
         res.json(data);
     }catch(err){
         console.error(err);
         res.status(500).json({error:"Failed to fetch with keyword"})
     }
 };
+
+export const getType=async(req,res)=>{
+    try{
+        const type=req.query.type;
+        const category=req.query.category;
+        const page=req.query.page;
+
+        const data=await fetchFromTMDB(`/${type}/${category}?language=en-US&page=${page}`);
+        res.json(data);
+    }catch(err){
+        console.error(err);
+        res.status(500).json({err:"Failed to fetch wwith type and category"});
+    }
+}
