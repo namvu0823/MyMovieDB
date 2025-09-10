@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api=axios.create({
-    baseURL:"https://mymoviedb-production.up.railway.app",
+    baseURL:"https://mymoviedb-production.up.railway.app:8080",
     timeout:5000,
     headers:{
         "Content-Type":"application/json"
