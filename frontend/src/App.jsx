@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import HomePage from './pages/homepage/HomePage';
 import LoginPage from './pages/loginpage/LoginPage';
-import RegisterPage from './pages/registerpage/Registerpage';
+import RegisterPage from './pages/registerpage/RegisterPage';
 import MoviePage from './pages/moviepage/MoviePage';
 import ProfilePage from './pages/profilepage/AccountPage';
 import EditProfilePage from './pages/editprofilepage/EditProfilePage';
