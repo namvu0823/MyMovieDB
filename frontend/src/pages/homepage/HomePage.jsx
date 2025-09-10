@@ -1,15 +1,13 @@
-import Header from "../../components/header/Header";
-import Trending from "../../components/trending/trending";
-import Main_Banner from "../../components/main_banner/main_banner";
-import Trailers from "../../components/trailers/Trailers";
-import Popular from "../../components/popular/popular";
-import SearchBar from "../../components/common/SearchBar";
+
+import Trending from "../../components/ui/Trending";
+import Main_Banner from "../../components/ui/main_banner";
+import Trailers from "../../components/ui/Trailers";
+import Popular from "../../components/ui/popular";
+
 
 export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col ">
-      <Header/>
-      <SearchBar/>
       <div id="main" class=" flex-col  justify-center">
         <section class="w-full h-80 ">
           <Main_Banner/>

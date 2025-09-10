@@ -1,7 +1,8 @@
 import {FcGoogle} from "react-icons/fc";
-import bg from "../../assets/backdrop.jpg";
 import logo from "../../assets/logo.svg";
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import { getMovieTrending } from "../../service/tmdbApi";
+import { postRegisterAccount } from "../../service/user";
 const RegisterPage=()=>{
 
     const[email,setEmail]=useState("");
@@ -9,7 +10,23 @@ const RegisterPage=()=>{
     const[confirm_password,setConfirm_password]=useState("");
     const[errorMsg,setErrorMsg]=useState("");
     const[successMsg,setSuccessMsg]=useState("");
+    const [banner,setBanner]=useState(null);
+    const IMAGE_BASE = "https://image.tmdb.org/t/p/original";
 
+    useEffect(()=>{
+        const fetchData=async()=>{
+            try{
+                const data=getMovieTrending("day");
+                const random_Movie=data.results[Math.floor(Math.random()*data.results.length)];
+                setBanner(random_Movie);
+            }
+            catch(err){
+                console.error("Failed to fetch trending",err);
+            }
+        }
+
+        fetchData();
+    },[]);
 
     const handleResgister=async (e)=>{
         e.preventDefault();
@@ -34,17 +51,7 @@ const RegisterPage=()=>{
 
 
         try{
-            const res= await fetch("http://localhost:5000/api/user/register",{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json",
-                },
-                body:JSON.stringify({email,password}),
-
-            });
-            
-            const data=await res.json();
-
+            const res= await postRegisterAccount({email,password});
             if(res.ok){
                 setErrorMsg("");
                 setSuccessMsg("Create account succesfully");
@@ -52,7 +59,7 @@ const RegisterPage=()=>{
                 setPassword("");
                 setConfirm_password("");
             }else{
-                setErrorMsg(data.message||"Error");
+                setErrorMsg(res.message||"Error");
                 setSuccessMsg("");
             }
         }catch(err){
@@ -69,7 +76,7 @@ const RegisterPage=()=>{
 
 
     return(
-            <div class ="w-screen h-screen bg-center bg-cover flex items-center justify-center " style={{backgroundImage:`url(${bg})`}}>
+            <div class ="w-screen h-screen bg-center bg-cover flex items-center justify-center " style={banner ? {backgroundImage:`url(${IMAGE_BASE}${banner.backdrop_path})`}:{}}>
     
                 <form onSubmit={handleResgister} class="w-96 h-auto  flex flex-col  gap-4 bg-white rounded-[30px] px-8 py-5 ">
                     <div class="flex flex-col items-center mt-6">

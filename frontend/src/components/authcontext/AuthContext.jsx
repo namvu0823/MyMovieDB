@@ -5,23 +5,22 @@ const AuthContext= createContext();
 export function AuthProvider({children}){
     const [user,setUser]=useState(null);
     useEffect(()=>{
-        const storedUser= localStorage.getItem("username");
+        const storedUser= localStorage.getItem("display_name");
         const storedToken= localStorage.getItem("token");
 
         if(storedToken&&storedUser){
-            setUser({username:storedUser, token: storedToken});
-
+            setUser({display_name:storedUser, token: storedToken});
         }
     },[]);
 
-    const login =(username,token)=>{
-        localStorage.setItem("username",username);
+    const login =(display_name,token)=>{
+        localStorage.setItem("display_name",display_name);
         localStorage.setItem("token",token);
-        setUser({username,token});
+        setUser({display_name,token});
     };
 
     const logout =()=>{
-        localStorage.removeItem("username");
+        localStorage.removeItem("display_name");
         localStorage.removeItem("token");
         setUser(null);
     }

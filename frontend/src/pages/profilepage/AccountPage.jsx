@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../../components/header/Header";
 
 export default function ProfilePage() {
     const [user, setUser] = useState(null);
@@ -36,7 +35,7 @@ export default function ProfilePage() {
 
     return (
         <div className="w-full min-h-screen bg-white">
-            <Header />
+            
             <div className="bg-gradient-to-r from-teal-800 to-teal-900 text-white">
                 <div className="max-w-6xl mx-auto px-6 py-10 flex items-center">
                 

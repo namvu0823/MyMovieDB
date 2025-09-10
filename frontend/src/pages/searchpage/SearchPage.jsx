@@ -1,8 +1,8 @@
 import React,{ useState,useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import Header from "../../components/header/Header";
-import Pagination from "../../components/pagination/Pagination";
+import Pagination from "../../components/common/Pagination";
 import Loading from "../../components/common/Loading";
+import { getSearch } from "../../service/tmdbApi";
 
 function useQuery(){
     return new URLSearchParams(useLocation().search);
@@ -11,7 +11,6 @@ export  default function SearchPage(){
     const keyword=useQuery().get("q");
     const page=useQuery().get("page");
     const [loading,setLoading]=useState(false);
-    const [activeCategory, setActiveCategory] = useState("movies");
     const [data,setData]=useState(null);
 
     useEffect(()=>{
@@ -20,8 +19,7 @@ export  default function SearchPage(){
         console.log("keyword = ",keyword);
         const fetchMovie=async()=>{
             try{
-                const res= await fetch(`http://localhost:5000/api/search?keyword=${keyword}&page=${page || 1}`);
-                const data=await res.json();
+                const data= await getSearch(keyword,page);
                 setData(data);
             }catch(err){
                 console.error("Failed to fetch movie by keyword",err);
@@ -37,7 +35,7 @@ export  default function SearchPage(){
     if(loading)return <Loading/>;
     return (
         <div className="flex flex-col w-full h-full ">
-            <Header />
+            
             <div className="flex py-8 gap-8 px-24">
                 <div className="w-64">
                     <div className="bg-cyan-500 text-white font-bold text-lg px-4 py-2 rounded-t">Search Results</div>

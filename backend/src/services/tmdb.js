@@ -13,3 +13,10 @@ export async function fetchFromTMDB(endpoint) {
     return res.json();
     
 }
+
+export async function getFile(endpoint) {
+    const url=`https://image.tmdb.org/t/p/w300${endpoint}`;
+    const res=await fetch(url,{method:'GET'});
+    if(!res.ok) throw new Error(`TMDB API error: ${res.statusText}`);
+    return res;
+}

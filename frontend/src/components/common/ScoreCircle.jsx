@@ -1,12 +1,20 @@
+
 const ScoreCircle=({score})=>{
+    
+    const color=score<7.0?"#eab308" :"#22c55e";
+
     return (
-        <div className="absolute -top-12 left-0 text-white font-bold w-10 h-10 flex items-center justify-center rounded-full border-2"
+        <div className="relative font-bold w-10 h-10 flex items-center justify-center rounded-full border-2 border-gray-800"
             style={{
-                background: `conic-gradient(#22c55e ${score * 36}deg, #222 0deg)`,
+                background: `conic-gradient(${color} ${score * 36}deg, #4b5563 0deg)`,
             }}
         >
-            {Math.round(score*10)}%
-
+             <div className="inset-[3px] rounded-full bg-gray-800 w-8 h-8 flex items-center justify-center">
+                <span className=" inset-0 items-center justify-center font-nunito text-[12px] text-white">
+                    {Math.round(score*10)}%
+                </span>
+            </div>
+            
         </div>
     );
 };

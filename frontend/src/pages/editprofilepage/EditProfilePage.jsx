@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FiFacebook, FiTwitter, FiYoutube } from "react-icons/fi";
 import { FaInstagram, FaMastodon, FaTiktok, FaVimeoV } from "react-icons/fa";
+import { putUserUpdate } from "../../service/user";
+
 
 export default function EditProfilePage() {
   const [accent, setAccent] = useState("blue");
@@ -19,29 +21,33 @@ export default function EditProfilePage() {
   }
 
   const handleSubmit=async()=>{
-    try{
-      const token=localStorage.getItem("token");
-      const res =await fetch("http://localhost:5000/api/user/update_user",{
-        method:"PUT",
-        headers:{
-          "Content-Type":"application/json",
-           Authorization:`Beare ${token}`,
-        },
-        body:JSON.stringify({
-          email:formData.email,
-          display_name:formData.display_name,
-          avatar_url:formData.avatar_url,
-          theme:formData.theme,
-        }),
-      });
+    // try{
+    //   const token=localStorage.getItem("token");
+    //   const res =await fetch("http://localhost:5000/api/user/update_user",{
+    //     method:"PUT",
+    //     headers:{
+    //       "Content-Type":"application/json",
+    //        Authorization:`Beare ${token}`,
+    //     },
+    //     body:JSON.stringify({
+    //       email:formData.email,
+    //       display_name:formData.display_name,
+    //       avatar_url:formData.avatar_url,
+    //       theme:formData.theme,
+    //     }),
+    //   });
 
-      const data=await res.json();
-        if (res.ok) {
-          alert("Cập nhật thành công!");
-        } else {
-          alert("Lỗi: " + data.message);
-        }
-    }catch(err){
+    //   const data=await res.json();
+    //     if (res.ok) {
+    //       alert("Cập nhật thành công!");
+    //     } else {
+    //       alert("Lỗi: " + data.message);
+    //     }
+    try{
+      const data =  await putUserUpdate(formData);
+      alert("Cập nhật thành công!");
+    }
+    catch(err){
       console.error(err);
       alert("Có lỗi xảy ra khi cập nhật!");
     }

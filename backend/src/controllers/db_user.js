@@ -51,12 +51,9 @@ export const  loginUser =async(req,res)=>{
         res.json({
             message:"Login succesfully",
             token,
-            user:{
-                id:user.id,
-                email:user.email,
-                display_name:user.display_name,
-                avatar_url:user.avatar_url
-            }
+            display_name:user.display_name,
+            avatar_url:user.avatar_url
+            
         });
     }
     catch(err){

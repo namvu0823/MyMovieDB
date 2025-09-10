@@ -7,7 +7,14 @@ export default {
     "./src/**/*.{js,jsx}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily:{
+        nunito: ["Nunito", "sans-serif"],
+        quicksand: ["Quicksand", "sans-serif"],
+        inter: ["Inter", "sans-serif"],
+        poppins: ["Poppins", "sans-serif"],
+      },
+    },
   },
   plugins: [
     scrollbar

@@ -1,19 +1,37 @@
 import {FcGoogle} from "react-icons/fc";
-import banner from "../../assets/backdrop2.jpg";
 import logo from "../../assets/logo.svg";
-import { useState } from "react";
-import {useNavigate} from "react-router-dom";
+import { useState,useEffect } from "react";
+import { useNavigate} from "react-router-dom";
 import { useAuth } from "../../components/authcontext/AuthContext";
-
-
+import { getMovieTrending } from "../../service/tmdbApi";
+import { postUserLogin } from "../../service/user";
 
 
 const LoginPage=()=>{
     const[email,setEmail]=useState("");
     const[password,setPassword]=useState("");
     const[errorMsg,setErrorMsg]=useState("");
+    const [banner,setBanner]=useState(null);
+    const IMAGE_BASE = "https://image.tmdb.org/t/p/original";
     const {login}=useAuth();
     const navigate=useNavigate();
+
+    useEffect(()=>{
+        const fetchData=async()=>{
+            try{
+                const data=await getMovieTrending("day");
+                const random_Movie=data.results[Math.floor(Math.random()*data.results.length)];
+                setBanner(random_Movie);
+            }
+            catch(err){
+                console.error("Failed to fetch trending",err);
+            }
+        }
+
+        fetchData();
+    },[]);
+
+
 
     const handleLogin=async(e)=>{
         e.preventDefault();
@@ -25,16 +43,9 @@ const LoginPage=()=>{
     }
 
     try{
-        const res = await fetch("http://localhost:5000/api/user/login",{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({email,password})
-        })
-        const data= await res.json();
+        const res = await postUserLogin({email,password});
         if(res.ok){
-            login(data.username,data.token);
+            login(res.display_name,res.token);
 
             setErrorMsg("");
             setEmail("");
@@ -42,7 +53,7 @@ const LoginPage=()=>{
 
             navigate("/");
         }else{
-            setErrorMsg(data.message||"Server error");
+            setErrorMsg(res.message||"Server error");
         }
     }
     catch(err){
@@ -58,7 +69,7 @@ const LoginPage=()=>{
 
 
     return(
-        <div className =" w-screen h-screen bg-center bg-cover flex items-center justify-center  " style={{backgroundImage:`url(${banner})`}}>
+        <div className =" w-screen h-screen bg-center bg-cover flex items-center justify-center  " style={banner ? {backgroundImage:`url(${IMAGE_BASE}${banner.backdrop_path})`}:{}}>
 
             <form onSubmit={handleLogin} className="w-96 h-auto flex flex-col gap-5 bg-white rounded-[30px] px-8 py-10">
 
