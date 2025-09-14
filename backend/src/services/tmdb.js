@@ -9,8 +9,10 @@ const headers ={
 export async function fetchFromTMDB(endpoint) {
     const url=`https://api.themoviedb.org/3${endpoint}`;
     const res= await fetch(url,{method:'GET',headers});
+    console.log({TMDB_AUTH});
     if(!res.ok) throw new Error(`TMDB API error: ${res.statusText}`);
     return res.json();
+    
     
 }
 
