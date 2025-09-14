@@ -9,6 +9,8 @@ const api=axios.create({
     }
 })
 
+console.log("Debug API_BASE:", API_BASE); 
+
 api.interceptors.request.use(
    
     (config)=>{
