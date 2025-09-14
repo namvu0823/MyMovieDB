@@ -1,7 +1,8 @@
 import axios from "axios";
+const API_BASE = process.env.REACT_APP_API_URL;
 
 const api=axios.create({
-    baseURL:"https://mymoviedb-production.up.railway.app",
+    baseURL:API_BASE,
     timeout:5000,
     headers:{
         "Content-Type":"application/json"
